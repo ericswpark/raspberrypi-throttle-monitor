@@ -75,9 +75,7 @@ def print_help():
 
 
 def main():
-    term.fullscreen()
-
-    with term.cbreak():
+    with term.fullscreen(), term.cbreak():
         val = ''
         while val.lower() != 'q':
             print_help()
