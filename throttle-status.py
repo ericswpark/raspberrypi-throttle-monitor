@@ -78,6 +78,9 @@ def main():
     with term.fullscreen(), term.cbreak():
         val = ''
         while val.lower() != 'q':
+            # Clear terminal between runs
+            term.clear()
+            
             print_help()
             val = term.inkey()
 
