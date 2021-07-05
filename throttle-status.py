@@ -35,14 +35,14 @@ err_map = {
 queryStatus = ["vcgencmd", "get_throttled"]
 
 
-def parseHexValue(hexValue):
+def parse_hex_value(value):
     result = str()
-    for i in hexValue:
+    for i in value:
         result = result + (hex2bin_map.get(i.upper()))
     return result
 
 
-def processBinaryStatus(binary):
+def process_binary_status(binary):
     print("\n" + binary)
     rows = 0
 
@@ -68,7 +68,7 @@ def processBinaryStatus(binary):
     print("\n")
 
 
-def returnProcessError(queryStatus, stdErr):
+def return_process_error(queryStatus, stdErr):
     print("\nERROR: Could not run command '" + str(queryStatus) + "'")
     print("STDERRR: " + str(stdErr))
 
@@ -86,7 +86,7 @@ def main():
     if args.hex:
         hexa = ''.join(args.hex).strip()
         if hexa[0:2] == "0x" and len(hexa) <= 7:
-            processBinaryStatus(parseHexValue(hexa[2:]))
+            process_binary_status(parse_hex_value(hexa[2:]))
         else:
             print("\nERROR: Could not parse hex value. Make sure you entered a correct argument!")
             print("Format: 0x***** , Max length: 7 \n")
@@ -103,9 +103,9 @@ def main():
 
             if rc == 0:
                 response = stdOut.strip().split("=")[1][2:]
-                processBinaryStatus(parseHexValue(response))
+                process_binary_status(parse_hex_value(response))
             else:
-                returnProcessError(' '.join(queryStatus), stdErr)
+                return_process_error(' '.join(queryStatus), stdErr)
                 parser.print_help()
 
         elif sys.version_info[0] == 3 and sys.version_info[1] >= 5:
@@ -113,9 +113,9 @@ def main():
 
             if process.returncode == 0:
                 response = process.stdout.decode('ascii').strip().split("=")[1][2:]
-                processBinaryStatus(parseHexValue(response))
+                process_binary_status(parse_hex_value(response))
             else:
-                returnProcessError(' '.join(queryStatus), process.stderr.decode('ascii'))
+                return_process_error(' '.join(queryStatus), process.stderr.decode('ascii'))
                 parser.print_help()
 
         else:
