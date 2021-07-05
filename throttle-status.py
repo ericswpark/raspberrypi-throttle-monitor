@@ -70,7 +70,6 @@ def main():
                                stderr=subprocess.PIPE)
     process.wait()
     stdOut = process.stdout.read()
-    stdErr = process.stderr.read()
     rc = process.returncode
 
     if rc == 0:
