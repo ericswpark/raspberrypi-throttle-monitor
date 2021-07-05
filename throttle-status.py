@@ -39,7 +39,7 @@ err_map = {
 def parse_hex_value(value):
     result = str()
     for i in value:
-        result = result + (hex2bin_map.get(i.upper()))
+        result = result + (hex2bin_map.get(str(i).upper()))
     return result
 
 
