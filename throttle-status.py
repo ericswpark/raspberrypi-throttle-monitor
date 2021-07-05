@@ -69,11 +69,11 @@ def main():
     process = subprocess.Popen(["vcgencmd", "get_throttled"], stdout=subprocess.PIPE, stdin=subprocess.PIPE,
                                stderr=subprocess.PIPE)
     process.wait()
-    stdOut = process.stdout.read()
+    output = process.stdout.read()
     rc = process.returncode
 
     if rc == 0:
-        response = stdOut.strip().split("=")[1][2:]
+        response = output.strip().split("=")[1][2:]
         process_binary_status(parse_hex_value(response))
     else:
         print("An error occurred while fetching system status.")
