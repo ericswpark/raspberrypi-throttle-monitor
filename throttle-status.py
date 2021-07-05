@@ -89,7 +89,7 @@ def main():
                 rc = process.returncode
 
                 if rc == 0:
-                    response = output.strip().split("=")[1][2:]
+                    response = output.strip().split(b'=')[1][2:]
                     process_binary_status(parse_hex_value(response))
                 else:
                     print("An error occurred while fetching system status.")
