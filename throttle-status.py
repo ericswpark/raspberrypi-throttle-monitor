@@ -82,7 +82,7 @@ def main():
             term.clear()
             
             print_help()
-            val = term.inkey()
+            val = term.inkey(timeout=1)
 
             if not val:
                 process = subprocess.Popen(["vcgencmd", "get_throttled"], stdout=subprocess.PIPE, stdin=subprocess.PIPE,
