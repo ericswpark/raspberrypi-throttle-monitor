@@ -1,4 +1,9 @@
 import subprocess
+import sys
+
+from blessed import Terminal
+
+term = Terminal()
 
 hex2bin_map = {
     "0": "0000",
@@ -64,18 +69,32 @@ def process_binary_status(binary):
     print("\n")
 
 
-def main():
-    process = subprocess.Popen(["vcgencmd", "get_throttled"], stdout=subprocess.PIPE, stdin=subprocess.PIPE,
-                               stderr=subprocess.PIPE)
-    process.wait()
-    output = process.stdout.read()
-    rc = process.returncode
+def print_help():
+    print("Press q to quit", end='')
+    sys.stdout.flush()
 
-    if rc == 0:
-        response = output.strip().split("=")[1][2:]
-        process_binary_status(parse_hex_value(response))
-    else:
-        print("An error occurred while fetching system status.")
+
+def main():
+    term.fullscreen()
+
+    with term.cbreak():
+        val = ''
+        while val.lower() != 'q':
+            print_help()
+            val = term.inkey()
+
+            if not val:
+                process = subprocess.Popen(["vcgencmd", "get_throttled"], stdout=subprocess.PIPE, stdin=subprocess.PIPE,
+                                           stderr=subprocess.PIPE)
+                process.wait()
+                output = process.stdout.read()
+                rc = process.returncode
+
+                if rc == 0:
+                    response = output.strip().split("=")[1][2:]
+                    process_binary_status(parse_hex_value(response))
+                else:
+                    print("An error occurred while fetching system status.")
 
 
 if __name__ == "__main__":
