@@ -69,7 +69,7 @@ def process_binary_status(binary):
 
 def return_process_error(queryStatus, stdErr):
     print("\nERROR: Could not run command '" + str(queryStatus) + "'")
-    print("STDERRR: " + str(stdErr))
+    print("STDERR: " + str(stdErr))
 
 
 def main():
