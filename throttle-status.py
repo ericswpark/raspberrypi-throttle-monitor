@@ -31,8 +31,6 @@ err_map = {
     19: "under-voltage",
 }
 
-queryStatus = ["vcgencmd", "get_throttled"]
-
 
 def parse_hex_value(value):
     result = str()
@@ -67,13 +65,8 @@ def process_binary_status(binary):
     print("\n")
 
 
-def return_process_error(queryStatus, stdErr):
-    print("\nERROR: Could not run command '" + str(queryStatus) + "'")
-    print("STDERR: " + str(stdErr))
-
-
 def main():
-    process = subprocess.Popen(queryStatus, stdout=subprocess.PIPE, stdin=subprocess.PIPE,
+    process = subprocess.Popen(["vcgencmd", "get_throttled"], stdout=subprocess.PIPE, stdin=subprocess.PIPE,
                                stderr=subprocess.PIPE)
     process.wait()
     stdOut = process.stdout.read()
@@ -84,8 +77,7 @@ def main():
         response = stdOut.strip().split("=")[1][2:]
         process_binary_status(parse_hex_value(response))
     else:
-        return_process_error(' '.join(queryStatus), stdErr)
-
+        print("An error occurred while fetching system status.")
 
 
 if __name__ == "__main__":
