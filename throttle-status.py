@@ -1,5 +1,4 @@
 import sys
-import argparse
 import subprocess
 
 hex2bin_map = {
@@ -74,51 +73,19 @@ def return_process_error(queryStatus, stdErr):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Raspberry Pi throttling status report.")
-    parser.add_argument("--hex", nargs="?", type=str, help="Prints a text-based throttling status by hex value.")
-    parser.add_argument("--get", action='store_true',
-                        help="Prints the \"vcgencmd get_throttled\" command's output in human readable format.")
+    process = subprocess.Popen(queryStatus, stdout=subprocess.PIPE, stdin=subprocess.PIPE,
+                               stderr=subprocess.PIPE)
+    process.wait()
+    stdOut = process.stdout.read()
+    stdErr = process.stderr.read()
+    rc = process.returncode
 
-    args = parser.parse_args()
+    if rc == 0:
+        response = stdOut.strip().split("=")[1][2:]
+        process_binary_status(parse_hex_value(response))
+    else:
+        return_process_error(' '.join(queryStatus), stdErr)
 
-    if args.hex:
-        hexa = ''.join(args.hex).strip()
-        if hexa[0:2] == "0x" and len(hexa) <= 7:
-            process_binary_status(parse_hex_value(hexa[2:]))
-        else:
-            print("\nERROR: Could not parse hex value. Make sure you entered a correct argument!")
-            print("Format: 0x***** , Max length: 7 \n")
-            parser.print_help()
-
-    elif args.get:
-        if sys.version_info[0] == 2 and sys.version_info[1] >= 7:
-            process = subprocess.Popen(queryStatus, stdout=subprocess.PIPE, stdin=subprocess.PIPE,
-                                       stderr=subprocess.PIPE)
-            process.wait()
-            stdOut = process.stdout.read()
-            stdErr = process.stderr.read()
-            rc = process.returncode
-
-            if rc == 0:
-                response = stdOut.strip().split("=")[1][2:]
-                process_binary_status(parse_hex_value(response))
-            else:
-                return_process_error(' '.join(queryStatus), stdErr)
-                parser.print_help()
-
-        elif sys.version_info[0] == 3 and sys.version_info[1] >= 5:
-            process = subprocess.run(queryStatus, capture_output=True)
-
-            if process.returncode == 0:
-                response = process.stdout.decode('ascii').strip().split("=")[1][2:]
-                process_binary_status(parse_hex_value(response))
-            else:
-                return_process_error(' '.join(queryStatus), process.stderr.decode('ascii'))
-                parser.print_help()
-
-        else:
-            print("\nERROR: Your Python version (" + sys.version + ") is below the minimum supported version (2.4)!")
-            sys.exit()
 
 
 if __name__ == "__main__":
