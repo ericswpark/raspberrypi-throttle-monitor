@@ -74,8 +74,6 @@ def return_process_error(queryStatus, stdErr):
 
 
 def main():
-    print("Running with Python version: " + sys.version)
-
     parser = argparse.ArgumentParser(description="Raspberry Pi throttling status report.")
     parser.add_argument("--hex", nargs="?", type=str, help="Prints a text-based throttling status by hex value.")
     parser.add_argument("--get", action='store_true',
