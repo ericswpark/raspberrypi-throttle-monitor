@@ -80,9 +80,6 @@ def main():
         while val.lower() != 'q':
             # Clear terminal between runs
             print(term.home + term.clear)
-            
-            print_help()
-            val = term.inkey(timeout=1)
 
             if not val:
                 process = subprocess.Popen(["vcgencmd", "get_throttled"], stdout=subprocess.PIPE, stdin=subprocess.PIPE,
@@ -96,6 +93,9 @@ def main():
                     process_binary_status(parse_hex_value(response))
                 else:
                     print("An error occurred while fetching system status.")
+
+            print_help()
+            val = term.inkey(timeout=1)
 
 
 if __name__ == "__main__":
