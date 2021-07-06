@@ -79,7 +79,7 @@ def main():
         val = ''
         while val.lower() != 'q':
             # Clear terminal between runs
-            term.clear()
+            print(term.home + term.clear)
             
             print_help()
             val = term.inkey(timeout=1)
