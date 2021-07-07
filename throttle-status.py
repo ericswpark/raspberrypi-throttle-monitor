@@ -44,7 +44,7 @@ def parse_hex_value(value):
 
 
 def process_binary_status(binary):
-    print("\n" + binary)
+    print(binary)
     rows = 0
 
     errs = {}
@@ -53,7 +53,7 @@ def process_binary_status(binary):
             errs[i] = err_map.get(i)
             rows += 1
 
-    for i in range(rows):
+    for _ in range(rows):
         result = ""
         for j in range(len(binary)):
             if binary[j] == "1":
