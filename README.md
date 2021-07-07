@@ -1,24 +1,20 @@
-# throttle-status
-Raspberry Pi vcgencmd get_throttled human readable output.<br>
-A script to read the throttle status of your rpi. 
+# raspberrypi-throttle-monitor
 
-_Written in Python 3.8_
+CLI tool to monitor your Raspberry Pi status. Uses
+`vcgencmd get_throttled` to fetch system information.
+
+Thanks to the original project,
+[throttle-status][original-project] by M4XDMG.
+
+[original-project]: https://github.com/M4XDMG/throttle-status
+
+# Setup
+
+1. Clone or download repository
+2. Use the `run.sh` script.
 
 
-
-```
-usage: throttle-status.py [-h] [--hex [HEX]] [--get]
-
-Raspberry Pi throttling status report.
-
-optional arguments:
-  -h, --help   show this help message and exit
-  --hex [HEX]  Prints a text-based throttling status by hex value.
-  --get        Prints the "vcgencmd get_throttled" command's output in human
-               readable format.
-               
-The console output displaying the results in the following format:
-```
+# Full Output
 
 ```
 111100000000000001111
@@ -31,5 +27,3 @@ The console output displaying the results in the following format:
 ||_ arm frequency capped has occurred since last reboot
 |_ soft temperature reached since last reboot
 ```
-To create a standalone package you can use the
-`pyinstaller --onefile throttle-status.py` command
