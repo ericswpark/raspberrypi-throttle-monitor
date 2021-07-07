@@ -4,7 +4,9 @@ CLI tool to monitor your Raspberry Pi status. Uses
 `vcgencmd get_throttled` to fetch system information.
 
 Thanks to the original project,
-[throttle-status][original-project] by M4XDMG.
+[throttle-status][original-project] by M4XDMG, for the initial
+parsing implementation. This project improves it by constantly
+refreshing the output every second.
 
 [original-project]: https://github.com/M4XDMG/throttle-status
 
